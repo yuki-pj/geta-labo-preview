@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- セキュリティ設定（CSP）：このページだけに効く方式。
+       ★重要★ 現在このCSPはCMS(index.php)が出しているが、実測したところ
+       静的ファイル（/getashindan/index.html 等）には付いていない。
+       つまり index.html を実ファイルに置き換えた瞬間、サーバーからのCSPは消える。
+       したがって、このmetaタグがこのページの唯一の防御になる。
+       許可内容は現行本番のCSPからGoogle計測系をすべて引き継ぎ、
+       新トップが使わない外部サービス（Twitter/LINE/Facebook/YouTube/CDN類）は外して絞ってある。 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.googleadservices.com https://*.google.com https://*.gstatic.com https://*.g.doubleclick.net; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://balancetec.co.jp https://*.google-analytics.com https://*.google.com https://*.google.co.jp https://*.googletagmanager.com https://*.gstatic.com https://*.g.doubleclick.net https://*.googleadservices.com; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://*.google.com https://*.g.doubleclick.net https://ad.doubleclick.net https://*.googleadservices.com; frame-src https://*.googletagmanager.com https://*.doubleclick.net https://*.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="robots" content="noindex, nofollow">
+  <title>【確認用】TOP｜GETA LABO【京都発の一本歯下駄】</title>
+  <meta name="description" content="GETA LABOの一本歯下駄は「カラダの基礎づくり」を目的に、「スポーツ科学」のもとフィジカルトレーナーが開発を行い、様々な競技アスリートの方へトレーニングメソッドの提供や共に研究を行っております。">
+  <meta name="theme-color" content="#1a1a1a">
+
+
+
+
+  <!-- 正式URL（検索エンジン向け）。
+       このサーバーは / へのアクセスを /index.html へ転送する設定のため、
+       転送先である /index.html を正式URLとする（現行サイトの指定とも一致）。 -->
+  <link rel="canonical" href="https://balancetec.co.jp/index.html">
+
+  <!-- 検索エンジン向けの名札（構造化データ）。会社名・サイト名・公式SNSを伝える。見た目には出ない。
+       実行されるプログラムではなくデータなので、CSPの script-src には影響しない。（改善14・2026-09-14） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://balancetec.co.jp/#organization",
+        "name": "株式会社バランステック京都",
+        "brand": { "@type": "Brand", "name": "GETA LABO" },
+        "url": "https://balancetec.co.jp/index.html",
+        "logo": "https://balancetec.co.jp/apple-touch-icon.png",
+        "sameAs": [
+          "https://www.instagram.com/geta_labo_kyoto/",
+          "https://www.instagram.com/geta_labo_geta_tore",
+          "https://www.youtube.com/@GETALABO",
+          "https://x.com/geta_kyoto"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://balancetec.co.jp/#website",
+        "name": "GETA LABO",
+        "url": "https://balancetec.co.jp/index.html",
+        "inLanguage": "ja",
+        "publisher": { "@id": "https://balancetec.co.jp/#organization" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- JS有効時だけアニメーション用の目印を付ける（JS無効でも全文が見える保険） -->
+  <script src="js/head.js?v=20260826"></script>
+
+  <!-- ファビコン -->
+  <!-- ファビコン・スマホ用アイコン一式（現行サイトから移植・2026-08-26） -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="36x36" href="favicons/android-icon-36x36.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicons/android-icon-48x48.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="72x72" href="favicons/android-icon-72x72.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="144x144" href="favicons/android-icon-144x144.png?v=20260826">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-icon-192x192.png?v=20260826">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-icon-76x76.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-icon-114x114.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-icon-120x120.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-icon-152x152.png?v=20260826">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-icon-180x180.png?v=20260826">
+  <link rel="manifest" href="favicons/manifest.json?v=20260826">
+
+  <!-- スマホのホーム画面に追加したときの表示 -->
+  <meta name="application-name" content="GETA LABO｜京都初の一本歯下駄">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="GETA LABO｜京都初の一本歯下駄">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Windowsのタイル表示 -->
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  <meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png?v=20260826">
+  <meta name="msapplication-square70x70logo" content="favicons/ms-icon-70x70.png?v=20260826">
+  <meta name="msapplication-square150x150logo" content="favicons/ms-icon-150x150.png?v=20260826">
+  <meta name="msapplication-wide310x150logo" content="favicons/ms-icon-310x150.png?v=20260826">
+  <meta name="msapplication-square310x310logo" content="favicons/ms-icon-310x310.png?v=20260826">
+
+  <!-- iOSの起動画面 -->
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-320x460.png?v=20260826" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-640x920.png?v=20260826" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-640x1096.png?v=20260826" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-748x1024.png?v=20260826" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-768x1004.png?v=20260826" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-750x1294.png?v=20260826" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-1182x2208.png?v=20260826" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-1242x2148.png?v=20260826" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-1496x2048.png?v=20260826" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="favicons/apple-startup-1536x2008.png?v=20260826" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+
+  <!-- OGP（SNSシェア表示）：シェア先のSNSが画像を見つけられるよう、完全なURLで指定 -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GETA LABO">
+  <meta property="og:title" content="TOP｜GETA LABO【京都発の一本歯下駄】">
+  <meta property="og:description" content="GETA LABOの一本歯下駄は「カラダの基礎づくり」を目的に、「スポーツ科学」のもとフィジカルトレーナーが開発を行い、様々な競技アスリートの方へトレーニングメソッドの提供や共に研究を行っております。">
+  <meta property="og:url" content="https://balancetec.co.jp/index.html">
+  <meta property="og:image" content="https://balancetec.co.jp/images/hero2.jpg">
+  <meta property="og:image:width" content="1193">
+  <meta property="og:image:height" content="796">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter（X）カード -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TOP｜GETA LABO【京都発の一本歯下駄】">
+  <meta name="twitter:description" content="GETA LABOの一本歯下駄は「カラダの基礎づくり」を目的に、「スポーツ科学」のもとフィジカルトレーナーが開発を行い、様々な競技アスリートの方へトレーニングメソッドの提供や共に研究を行っております。">
+  <meta name="twitter:image" content="https://balancetec.co.jp/images/hero2.jpg">
+
+  <link rel="stylesheet" href="css/fonts.css?v=20260826">
+  <link rel="stylesheet" href="css/style.css?v=20260906">
+  <style>.preview-ribbon{position:fixed;top:0;left:0;z-index:99999;background:#c62828;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-bottom-right-radius:6px;pointer-events:none;letter-spacing:.1em}</style>
+</head>
+<body>
+  <div class="preview-ribbon" aria-hidden="true">確認用</div>
+
+
+  <a class="skip-link" href="#main">本文へスキップする</a>
+
+  <!-- ========== ヘッダー ========== -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#hero" class="header-logo">
+        <img src="images/logo-white.png" alt="GETA LABO" width="207" height="47" class="header-logo-img">
+      </a>
+      <nav class="global-nav" aria-label="グローバルナビ">
+        <ul class="global-nav-list">
+          <li><a href="#products" class="global-nav-link">製品</a></li>
+          <li><a href="#diagnosis" class="global-nav-link">無料診断</a></li>
+          <li><a href="#news" class="global-nav-link">お知らせ</a></li>
+          <li><a href="#story" class="global-nav-link">研究・開発</a></li>
+          <li><a href="#shop" class="global-nav-link">オンラインショップ</a></li>
+          <li><a href="#contact" class="global-nav-link">お問い合わせ</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false" aria-controls="navOverlay">
+        <span class="hamburger-lines">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </span>
+        <span class="hamburger-label" id="hamburgerLabel">MENU</span>
+      </button>
+    </div>
+    <nav class="nav-overlay" id="navOverlay">
+      <div class="nav-overlay-inner">
+        <div class="nav-main">
+          <ul class="nav-list">
+            <li><a href="#concept" class="nav-link"><span class="nav-num">01</span><span class="nav-text">理念・ビジョン</span></a></li>
+            <li><a href="#feet-first" class="nav-link"><span class="nav-num">02</span><span class="nav-text">足育文化</span></a></li>
+            <li><a href="#products" class="nav-link"><span class="nav-num">03</span><span class="nav-text">製品一覧</span></a></li>
+            <li><a href="#diagnosis" class="nav-link"><span class="nav-num">04</span><span class="nav-text">無料診断</span></a></li>
+            <li><a href="#news" class="nav-link"><span class="nav-num">05</span><span class="nav-text">お知らせ</span></a></li>
+            <li><a href="#mission" class="nav-link"><span class="nav-num">06</span><span class="nav-text">ミッション</span></a></li>
+            <li><a href="#shop" class="nav-link"><span class="nav-num">07</span><span class="nav-text">オンラインショップ</span></a></li>
+            <li><a href="#story" class="nav-link"><span class="nav-num">08</span><span class="nav-text">研究・開発</span></a></li>
+            <li><a href="#connected-world" class="nav-link"><span class="nav-num">09</span><span class="nav-text">つながる世界</span></a></li>
+            <li><a href="#contact" class="nav-link"><span class="nav-num">10</span><span class="nav-text">お問い合わせ</span></a></li>
+          </ul>
+        </div>
+        <div class="nav-side">
+          <div class="nav-side-block">
+            <p class="nav-side-label">SNS</p>
+            <div class="nav-side-links">
+              <a href="https://www.instagram.com/geta_labo_kyoto/" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href="https://www.youtube.com/@GETALABO" target="_blank" rel="noopener noreferrer">YouTube</a>
+              <a href="https://x.com/geta_kyoto" target="_blank" rel="noopener noreferrer">X（Twitter）</a>
+            </div>
+          </div>
+          <div class="nav-side-block">
+            <p class="nav-side-label">Company</p>
+            <p class="nav-side-company">株式会社バランステック京都</p>
+            <p class="nav-side-address">京都府京都市伏見区新町4-465-5</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+  <!-- ========== ヒーローセクション ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-video-wrap">
+      <!-- PC用（横型）／スマホ用（縦型）の2本を用意し、画面幅に合う方だけを読み込む。
+           読み込みは下の小さなスクリプトが data-src を src に、data-poster を poster に
+           移し替えて行うため、表示されない方の動画も表紙画像も通信されない。
+           （poster を直接書くと、隠れている方の表紙画像も取得されていた。2026-09-13 改善12） -->
+      <video class="hero-video hero-video--pc" autoplay muted loop playsinline
+             data-poster="images/hero003_poster.jpg"
+             data-src="images/hero003_web.mp4"></video>
+      <video class="hero-video hero-video--sp" autoplay muted loop playsinline
+             data-poster="images/hero003_vertical_web_poster.jpg"
+             data-src="images/hero003_vertical_web.mp4"></video>
+      <noscript>
+        <video class="hero-video hero-video--pc" autoplay muted loop playsinline
+               poster="images/hero003_poster.jpg" src="images/hero003_web.mp4"></video>
+      </noscript>
+    </div>
+    <!-- 動画読み込み処理はCSP対応のため外部ファイル化（この位置で読むことで開始が早い） -->
+    <script src="js/hero-video.js?v=20260826"></script>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+    </div>
+
+  </section>
+
+  <!-- ========== コンセプトセクション（GETA LABOについて） ========== -->
+  <section class="section concept" id="concept">
+    <div class="container">
+      <div class="concept-inner">
+        <div class="section-label fade-in">
+          <span class="section-label-en">About GETA LABO</span>
+        </div>
+        <h1 class="concept-heading fade-in">
+          未来は<br>履くことで変わる
+        </h1>
+        <p class="concept-subtitle fade-in">GETA LABO（バランス下駄）</p>
+        <p class="concept-label fade-in">ゲタラボとは</p>
+        <div class="concept-body fade-in">
+          <p>日本が世界に誇る伝統技術を現代のスポーツ科学と融合させることで、独自形状の現代版バランス下駄の開発に成功。</p>
+          <p>下駄から始まる可能性を未来社会に向けて、伝統・文化・環境・社会の調和を追求し、多くの方に身体能力の覚醒と健康促進を体感していただけるプロダクトです。</p>
+          <p>世界で活躍する一流の選手たちの使用によるフィードバックで『どんな効果があるのか』を最新科学で分析し言語化することで、感覚とエビデンスに基づき、身体能力の可能性を引き出すだけではなく、『未来の可能性を引き出す』履き物として様々な領域で新たな価値を創造しご利用いただいております。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Feet First セクション（足育文化） ========== -->
+  <!-- 他のセクションと同じ2カラムの型をあえて使わず、
+       大きな写真を先に見せ、その下に見出しを置く「宣言」の組み方にしている。 -->
+  <section class="section feet-first" id="feet-first">
+    <div class="feet-first-inner">
+      <a href="https://getalabo-store.com/items/6a2e408124537c26418d8787" target="_blank" rel="noopener noreferrer" class="feet-first-image fade-in">
+        <img src="images/roots.jpg" alt="ROOTS ルーツ 世界で活躍するプロサッカー選手・佐野兄弟 K&K TRUE NORTH × GETA LABO" width="1069" height="600" loading="lazy">
+      </a>
+      <div class="feet-first-caption">
+        <h2 class="feet-first-heading fade-in">全ては足元から<br>「足育文化」</h2>
+        <p class="feet-first-lead fade-in">命のはじまりから歩く力を育み、<br>失われた文化を足元から取り戻す。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== プロダクトセクション ========== -->
+  <section class="section products" id="products">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">GETA LABO</h2>
+          <p class="products-subtitle fade-in"><span class="nobr">・一本歯下駄</span><span class="nobr">・二本歯下駄</span><span class="nobr">・足半下駄</span><span class="nobr">・縦歯下駄</span><span class="nobr">・後ろ歯下駄</span></p>
+          <a href="https://balancetec.co.jp/getalabo/index.html" target="_blank" rel="noopener noreferrer" class="text-link fade-in">製品一覧へ</a>
+        </div>
+        <div class="section-layout-right">
+      <div class="product-grid">
+        <!-- ライフアップシリーズ -->
+        <a href="https://balancetec.co.jp/getalabo/index.html" target="_blank" rel="noopener" class="product-reveal">
+        <div class="product-card">
+          <div class="product-card-image">
+            <img src="images/product_lifeup_web.jpg" alt="Life Up Series" width="720" height="900" loading="lazy">
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-title">Life Up Series</h3>
+            <p class="product-card-title-ja">ライフアップシリーズ</p>
+            <p class="product-card-desc">日常に取り入れやすい一本歯下駄。健康促進と身体バランスの向上を、毎日の暮らしの中で。</p>
+          </div>
+        </div>
+        </a>
+        <!-- プロフェッショナルシリーズ -->
+        <a href="https://balancetec.co.jp/getalabo/index.html" target="_blank" rel="noopener" class="product-reveal">
+        <div class="product-card">
+          <div class="product-card-image">
+            <img src="images/product_professional_web.jpg" alt="Professional Series" width="720" height="899" loading="lazy">
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-title">Professional Series</h3>
+            <p class="product-card-title-ja">プロフェッショナルシリーズ</p>
+            <p class="product-card-desc">アスリートのパフォーマンス向上に特化。トレーニングの質を根本から変える一足。</p>
+          </div>
+        </div>
+        </a>
+        <!-- コラボレーションシリーズ -->
+        <a href="https://balancetec.co.jp/getalabo/index.html" target="_blank" rel="noopener" class="product-reveal">
+        <div class="product-card">
+          <div class="product-card-image">
+            <img src="images/product_collaboration_web.jpg" alt="Collaboration Series" width="720" height="900" loading="lazy">
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-title">Collaboration Series</h3>
+            <p class="product-card-title-ja">コラボレーションシリーズ</p>
+            <p class="product-card-desc">伝統工芸やスポーツチームとの共創から生まれた、唯一無二のデザイン。</p>
+          </div>
+        </div>
+        </a>
+      </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 無料診断セクション ========== -->
+  <section class="section diagnosis" id="diagnosis">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">無料診断</h2>
+          <p class="diagnosis-lead fade-in">足の使い方やクセは、人それぞれ違います。いくつかの質問に答えるだけで、今のあなたにいちばん合う一本歯下駄をご提案。自分にぴったりの一足を、まずは無料で見つけてみませんか。</p>
+        </div>
+        <div class="section-layout-right">
+          <a href="https://balancetec.co.jp/getashindan/index.html" target="_blank" rel="noopener noreferrer" class="diagnosis-banner fade-in">
+            <img src="images/muryoushinndan.jpg" alt="1日3分、履くだけで体幹・姿勢が変わる 一本歯下駄トレーニング 無料診断はこちら" width="1880" height="1285" loading="lazy" class="diagnosis-banner-img">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ニュースセクション ========== -->
+  <section class="section news" id="news">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">お知らせ</h2>
+        </div>
+        <div class="section-layout-right">
+          <div class="news-tabs fade-in">
+            <button class="news-tab is-active" data-filter="all">全て</button>
+            <button class="news-tab" data-filter="メディア掲載">メディア掲載</button>
+            <button class="news-tab" data-filter="レポート">レポート</button>
+            <button class="news-tab" data-filter="お知らせ">お知らせ</button>
+            <button class="news-tab" data-filter="プレスリリース">プレスリリース</button>
+          </div>
+          <div class="news-list">
+            <!-- 自動読み込み（js/main.js）に失敗したときだけ見える予備。お知らせ一覧の最新4件を手で写したもの（2026-09-13 時点）。一覧を更新したらここも入れ替える -->
+            <a href="https://balancetec.co.jp/news/20260812-20260825.html" target="_blank" rel="noopener noreferrer" class="news-item fade-in" data-category="お知らせ">
+              <img class="news-thumb" src="https://balancetec.co.jp/data/pages/00/00/00/40/35/fc366c0d0cefebd571a9ae6f2e2cf448-1786397412.png" alt="髙島屋横浜店 POP-UP" width="1200" height="630" loading="lazy">
+              <div class="news-body">
+                <div class="news-meta">
+                  <time class="news-date">2026.08.01</time>
+                  <span class="news-tag">お知らせ</span>
+                </div>
+                <p class="news-title">【8/12〜8/25】髙島屋横浜店6階Aエスカレーター横特設会場にてPOP-UPを開催いたします！</p>
+              </div>
+            </a>
+            <a href="https://balancetec.co.jp/news/20260715-20260730.html" target="_blank" rel="noopener noreferrer" class="news-item fade-in" data-category="お知らせ">
+              <img class="news-thumb" src="https://balancetec.co.jp/data/pages/00/00/00/40/17/a87a381510c19059e026446b083b7535-1783927656.jpg" alt="大丸心斎橋店 POP-UP" width="1040" height="546" loading="lazy">
+              <div class="news-body">
+                <div class="news-meta">
+                  <time class="news-date">2026.07.08</time>
+                  <span class="news-tag">お知らせ</span>
+                </div>
+                <p class="news-title">【7/15〜7/30】大丸心斎橋店8階メインエスカレーター前にてPOP-UPを開催いたします！</p>
+              </div>
+            </a>
+            <a href="https://balancetec.co.jp/news/20260708-20260721.html" target="_blank" rel="noopener noreferrer" class="news-item fade-in" data-category="お知らせ">
+              <img class="news-thumb" src="https://balancetec.co.jp/data/pages/00/00/00/39/98/fb6c57d8dd0f308fd8b5b82b937dfe18-1783236026.png" alt="髙島屋京都店 POP-UP" width="1200" height="630" loading="lazy">
+              <div class="news-body">
+                <div class="news-meta">
+                  <time class="news-date">2026.07.01</time>
+                  <span class="news-tag">お知らせ</span>
+                </div>
+                <p class="news-title">【7/8〜7/21】髙島屋京都店4階下りエスカレーター前にてPOP-UPを開催いたします！</p>
+              </div>
+            </a>
+            <a href="https://balancetec.co.jp/news/20260627-20260628.html" target="_blank" rel="noopener noreferrer" class="news-item fade-in" data-category="お知らせ">
+              <img class="news-thumb" src="https://balancetec.co.jp/data/pages/00/00/00/39/88/ddbb8919c9ea6428832df1b683e348ce-1781855757.jpg" alt="幕張メッセ 日本アスレティックトレーニング学会学術大会" width="1200" height="630" loading="lazy">
+              <div class="news-body">
+                <div class="news-meta">
+                  <time class="news-date">2026.06.20</time>
+                  <span class="news-tag">お知らせ</span>
+                </div>
+                <p class="news-title">【6/27・28】幕張メッセ『第15回日本アスレティックトレーニング学会学術大会』に参加いたします！</p>
+              </div>
+            </a>
+          </div>
+          <div class="news-more fade-in">
+            <a href="https://balancetec.co.jp/news/index.html" target="_blank" rel="noopener noreferrer" class="news-more-btn">もっとみる</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Our Mission セクション ========== -->
+  <section class="section mission" id="mission">
+    <div class="mission-pin-wrap">
+      <div class="container mission-sticky">
+        <div class="section-layout">
+          <div class="section-layout-left">
+            <h2 class="concept-heading fade-in">
+              伝統文化を紡ぐ
+            </h2>
+          </div>
+          <div class="section-layout-right mission-reveal">
+            <div class="mission-vision">
+              <p class="mission-vision-text">
+                革新的な伝統文化の普及と共に<br>
+                一人ひとりが、いつまでも健康で<br>
+                自分の可能性に挑戦できる社会を創る
+              </p>
+            </div>
+            <div class="concept-body">
+              <p>伝統文化には「衣」「食」「住」「芸能」「音楽」「工芸」<br>「祭礼」「宗教」「武道」「生活習慣」が含まれます。<br>それは人と自然社会がどう共生してきたかの記録であり、<br>命を守り育む知恵の体系です。</p>
+              <p>千年以上前からある伝統的な下駄文化を現代版に活かし、<br>短時間で効果が実感できる製品開発に取り組んでいます。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ショップセクション ========== -->
+  <!-- 旧デザインの全ページのメニュー「オンラインショップ」(https://balancetec.co.jp#online) の着地点。ショップ欄の上端と同じ位置 -->
+  <div id="online"></div>
+  <section class="section shop" id="shop">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">オンラインショップ</h2>
+          <p class="shop-lead fade-in">お好みのショップからお買い求めいただけます。</p>
+        </div>
+        <div class="section-layout-right">
+          <div class="shop-card-list fade-in">
+            <a href="https://getalabo-shop.stores.jp/" target="_blank" rel="noopener noreferrer" class="shop-card">
+              <img src="images/stores_pc.jpg" alt="公式オンラインショップGETA LABO" width="600" height="480" loading="lazy" class="shop-card-img">
+            </a>
+            <a href="https://www.rakuten.co.jp/getalabo/" target="_blank" rel="noopener noreferrer" class="shop-card">
+              <img src="images/rakuten_pc.jpg" alt="楽天市場店" width="600" height="480" loading="lazy" class="shop-card-img">
+            </a>
+            <a href="https://www.furusato-tax.jp/search?q=GETA+LABO&header=1&target=1" target="_blank" rel="noopener noreferrer" class="shop-card">
+              <img src="images/furusato_pc.jpg" alt="京都府京都市ふるさと納税返礼品" width="600" height="480" loading="lazy" class="shop-card-img">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ストーリーセクション（研究・開発） ========== -->
+  <section class="section story" id="story">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">研究と開発</h2>
+        </div>
+        <div class="section-layout-right">
+          <!-- ストーリー1: 世界のトップアスリートも使用 -->
+          <a href="https://balancetec.co.jp/research.html#link02" class="story-block fade-in">
+            <div class="story-image story-image-photo">
+              <img src="images/kennkyuu1_web.jpg" alt="世界のトップアスリートも使用。野球・サッカー・陸上・ゴルフなど多くの競技でトレーニングに取り入れられている図解" width="1200" height="675" loading="lazy">
+            </div>
+            <div class="story-text">
+              <h3 class="story-title"><span class="nobr">世界のトップアスリートも</span><span class="nobr">使用</span></h3>
+              <p>野球・サッカー・陸上・ゴルフなど、ジャンルを問わず多くのトップアスリートがトレーニングに取り入れています。</p>
+              <p>体幹・バランス・パフォーマンスの向上に役立つ一本歯下駄は、競技力を高める新しいアプローチとして注目されています。</p>
+            </div>
+          </a>
+
+          <!-- ストーリー2: 大学機関と連携 -->
+          <a href="https://balancetec.co.jp/research.html" class="story-block story-block-reverse fade-in">
+            <div class="story-image story-image-photo">
+              <img src="images/kennkyuu2_web.jpg" alt="大学機関と連携し、身体バランス・足圧分布・筋活動量・脳の活性化・姿勢解析などを科学的に検証している図解" width="1200" height="675" loading="lazy">
+            </div>
+            <div class="story-text">
+              <h3 class="story-title"><span class="nobr">大学機関と連携</span></h3>
+              <p>さまざまな大学機関との共同研究を行い、科学的な視点からその効果を検証しています。</p>
+              <p>身体バランスや足圧分布、筋活動量、姿勢解析など、多角的にエビデンスを取得しながら開発を進めています。</p>
+            </div>
+          </a>
+
+          <!-- ストーリー3: トライポッドフット 3点バランス設計 -->
+          <a href="https://balancetec.co.jp/research.html#link01" class="story-block fade-in">
+            <div class="story-image story-image-photo">
+              <img src="images/tripod_web.jpg" alt="母趾球・小趾球・かかとの3点「トライポッドフット」を活性化させる3点バランス設計の図解" width="1200" height="675" loading="lazy">
+            </div>
+            <div class="story-text">
+              <h3 class="story-title"><span class="nobr">トライポッドフット</span> <span class="nobr">3点バランスに設計</span></h3>
+              <p>母趾球・小趾球・かかとの3点「トライポッドフット」を最適に活性化できるよう設計しています。</p>
+              <p>この3点をバランスよく刺激することで、身体本来のバランスと能力を自然に引き出します。</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 下駄マーキー（横スクロール） ========== -->
+  <div class="geta-marquee" aria-hidden="true">
+    <div class="geta-marquee-track">
+      <div class="geta-marquee-group">
+        <img src="images/geta_flow/walk-purple.jpg" alt="" width="700" height="510" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-white.jpg" alt="" width="700" height="508" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/walk-green.jpg" alt="" width="700" height="544" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-red.jpg" alt="" width="700" height="509" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/walk-blue.jpg" alt="" width="700" height="467" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-rainbow.jpg" alt="" width="700" height="509" class="geta-marquee-item" loading="lazy">
+      </div>
+      <div class="geta-marquee-group" aria-hidden="true">
+        <img src="images/geta_flow/walk-purple.jpg" alt="" width="700" height="510" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-white.jpg" alt="" width="700" height="508" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/walk-green.jpg" alt="" width="700" height="544" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-red.jpg" alt="" width="700" height="509" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/walk-blue.jpg" alt="" width="700" height="467" class="geta-marquee-item" loading="lazy">
+        <img src="images/geta_flow/fusion-rainbow.jpg" alt="" width="700" height="509" class="geta-marquee-item" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== つながる世界セクション ========== -->
+  <section class="section connected-world" id="connected-world">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">GETA LABO<br>から<br>つながる世界</h2>
+        </div>
+        <div class="section-layout-right">
+      <div class="world-grid">
+        <a href="https://balancetec.co.jp/about.html#sports" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/sports.jpg" alt="スポーツ" width="640" height="440" loading="lazy" class="world-card-img">
+            <span class="world-card-num">01</span>
+          </div>
+          <h3 class="world-card-title">スポーツ</h3>
+          <p class="world-card-desc"><span class="nobr">アスリートの</span><span class="nobr">パフォーマンス</span><span class="nobr">向上と</span><span class="nobr">トレーニング革新</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/news/20220217.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/fastgeta.webp" alt="ファースト下駄" width="1200" height="1000" loading="lazy" class="world-card-img">
+            <span class="world-card-num">02</span>
+          </div>
+          <h3 class="world-card-title"><span class="nobr">ファースト</span><span class="nobr">下駄</span></h3>
+          <p class="world-card-desc"><span class="nobr">はじめての</span><span class="nobr">一本歯下駄</span><span class="nobr">体験を、</span><span class="nobr">すべての人に</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/news/femcare.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/female.webp" alt="女性" width="1705" height="959" loading="lazy" class="world-card-img">
+            <span class="world-card-num">03</span>
+          </div>
+          <h3 class="world-card-title">女性</h3>
+          <p class="world-card-desc"><span class="nobr">女性の健康と</span><span class="nobr">美しさを</span><span class="nobr">足元から</span><span class="nobr">サポート</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/about.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/children.webp" alt="子供" width="1930" height="846" loading="lazy" class="world-card-img">
+            <span class="world-card-num">04</span>
+          </div>
+          <h3 class="world-card-title">子供</h3>
+          <p class="world-card-desc"><span class="nobr">成長期の</span><span class="nobr">正しい</span><span class="nobr">身体づくりと</span><span class="nobr">運動能力の向上</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/about.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/koureisya.webp" alt="高齢者" width="3000" height="975" loading="lazy" class="world-card-img">
+            <span class="world-card-num">05</span>
+          </div>
+          <h3 class="world-card-title">高齢者</h3>
+          <p class="world-card-desc"><span class="nobr">いつまでも</span><span class="nobr">自分の足で</span><span class="nobr">歩ける</span><span class="nobr">健康寿命の延伸</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/project/akachan-matsuri.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/chiikisyakai.jpg" alt="地域社会" width="640" height="440" loading="lazy" class="world-card-img">
+            <span class="world-card-num">06</span>
+          </div>
+          <h3 class="world-card-title">地域社会</h3>
+          <p class="world-card-desc"><span class="nobr">地域と連携した</span><span class="nobr">健康促進と</span><span class="nobr">文化振興の</span><span class="nobr">取り組み</span></p>
+        </a>
+        <a href="https://ecology-w.or.jp/" target="_blank" rel="noopener" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/kannkyou.webp" alt="環境" width="1706" height="960" loading="lazy" class="world-card-img">
+            <span class="world-card-num">07</span>
+          </div>
+          <h3 class="world-card-title">環境</h3>
+          <p class="world-card-desc"><span class="nobr">自然素材を</span><span class="nobr">活かした</span><span class="nobr">サステナブルな</span><span class="nobr">ものづくり</span></p>
+        </a>
+        <a href="https://balancetec.co.jp/about.html" class="world-card fade-in">
+          <div class="world-card-img-wrap">
+            <img src="images/technology.jpg" alt="テクノロジー" width="640" height="440" loading="lazy" class="world-card-img">
+            <span class="world-card-num">08</span>
+          </div>
+          <h3 class="world-card-title">テクノロジー</h3>
+          <p class="world-card-desc"><span class="nobr">最新技術と</span><span class="nobr">伝統の融合による</span><span class="nobr">新しい価値の創出</span></p>
+        </a>
+      </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== お問い合わせセクション ========== -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="section-layout">
+        <div class="section-layout-left">
+          <h2 class="section-heading fade-in">お問い合わせ</h2>
+          <p class="contact-lead fade-in">製品のご購入・使い方のご相談から、メディア掲載・取材まで。ご相談内容に応じてお気軽にお問い合わせください。</p>
+        </div>
+        <div class="section-layout-right">
+          <div class="contact-cards">
+            <a href="https://balancetec.co.jp/contact.html" target="_blank" rel="noopener noreferrer" class="contact-card fade-in">
+              <div class="contact-card-photo"><img src="images/contact_product_web.jpg" alt="GETA LABOの一本歯下駄" width="800" height="533" loading="lazy"></div>
+              <div class="contact-card-body">
+                <h3 class="contact-card-title">商品について</h3>
+                <p class="contact-card-desc"><span class="nobr">製品のご購入・</span><span class="nobr">使い方・</span><span class="nobr">在庫などに関する</span><span class="nobr">ご相談</span></p>
+              </div>
+            </a>
+            <a href="https://balancetec.co.jp/contact.html" target="_blank" rel="noopener noreferrer" class="contact-card fade-in">
+              <div class="contact-card-photo"><img src="images/media_camera_web.jpg" alt="取材用のカメラ" width="800" height="436" loading="lazy"></div>
+              <div class="contact-card-body">
+                <h3 class="contact-card-title">メディア掲載・取材</h3>
+                <p class="contact-card-desc"><span class="nobr">取材・掲載・出演の</span><span class="nobr">ご依頼、</span><span class="nobr">広報に関する</span><span class="nobr">お問い合わせ</span></p>
+              </div>
+            </a>
+            <a href="https://balancetec.co.jp/contact.html" target="_blank" rel="noopener noreferrer" class="contact-card fade-in">
+              <div class="contact-card-photo"><img src="images/other_contact_web.jpg" alt="お問い合わせフォームに入力する女性" width="800" height="436" loading="lazy"></div>
+              <div class="contact-card-body">
+                <h3 class="contact-card-title">その他</h3>
+                <p class="contact-card-desc"><span class="nobr">上記以外の</span><span class="nobr">お問い合わせ・</span><span class="nobr">ご相談は</span><span class="nobr">こちらから</span></p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- ========== フッター ========== -->
+  <footer class="footer">
+
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">GETA LABO</span>
+        <p class="footer-company"><span class="nobr">株式会社</span><span class="nobr">バランステック京都</span></p>
+        <p class="footer-address">〒612-8081<br>京都府京都市伏見区新町4-465-5<br>マースリヴィエール1Ｆ</p>
+      </div>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="#concept">理念・ビジョン</a></li>
+          <li><a href="#feet-first">足育文化</a></li>
+          <li><a href="#products">製品一覧</a></li>
+          <li><a href="#diagnosis">無料診断</a></li>
+          <li><a href="#news">お知らせ</a></li>
+          <li><a href="#mission">ミッション</a></li>
+          <li><a href="#shop">オンラインショップ</a></li>
+          <li><a href="#story">研究・開発</a></li>
+          <li><a href="#connected-world">つながる世界</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+      </nav>
+      <div class="footer-links">
+        <p class="footer-links-heading">SNS</p>
+        <a href="https://www.instagram.com/geta_labo_kyoto/" target="_blank" rel="noopener noreferrer">Instagram<span class="nobr">（広報）</span></a>
+        <a href="https://www.instagram.com/geta_labo_geta_tore" target="_blank" rel="noopener noreferrer">Instagram<span class="nobr">（トレーニング）</span></a>
+        <a href="https://www.youtube.com/@GETALABO" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://x.com/geta_kyoto" target="_blank" rel="noopener noreferrer">X（旧Twitter）</a>
+        <p class="footer-links-heading footer-links-heading--spaced">提携機関</p>
+        <span class="footer-partner">未来創造プラットフォーム</span>
+        <span class="footer-partner">京都SDGsネットワーク</span>
+      </div>
+      <div class="footer-partners">
+        <p class="footer-partners-heading">共創パートナー</p>
+        <div class="footer-partners-grid">
+          <img src="images/partner_logo01.jpg" alt="森永乳業" width="800" height="220" loading="lazy" class="footer-partner-logo">
+          <img src="images/partner_logo02.jpg" alt="シヤチハタ" width="800" height="220" loading="lazy" class="footer-partner-logo">
+          <img src="images/partner_logo03.jpg" alt="一般社団法人エコロジーウォーキングジャパン" width="800" height="220" loading="lazy" class="footer-partner-logo">
+          <img src="images/partner_logo04.jpg" alt="京都市定住・移住応援団" width="800" height="220" loading="lazy" class="footer-partner-logo">
+          <img src="images/partner_logo05.jpg" alt="京都伏見 京蝋燭" width="800" height="220" loading="lazy" class="footer-partner-logo">
+          <img src="images/partner_logo06.jpg" alt="一般社団法人 京都伏見十六会" width="800" height="220" loading="lazy" class="footer-partner-logo">
+        </div>
+      </div>
+    </div>
+    <div class="footer-policy">
+      <a href="https://balancetec.co.jp/about.html">理念・企業情報</a>
+      <span class="footer-policy-divider">|</span>
+      <a href="https://balancetec.co.jp/nintei/index.html">認定制度</a>
+      <span class="footer-policy-divider">|</span>
+      <a href="https://balancetec.co.jp/privacy.html">個人情報保護方針</a>
+      <span class="footer-policy-divider">|</span>
+      <a href="https://balancetec.co.jp/sitepolicy.html">サイトポリシー</a>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright &copy; 株式会社バランステック京都. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="fixed-banner" id="fixedBanner">
+    <a href="https://getalabo-store.com/" target="_blank" rel="noopener noreferrer"
+       aria-label="GETA LABO オンラインショップへ" class="fixed-banner-link">
+      <img src="images/fixed_banner_web.svg" alt="オンラインショップはこちら" width="318" height="118" class="fixed-banner-img">
+    </a>
+    <button type="button" class="fixed-banner-close" id="fixedBannerClose" aria-label="バナーを閉じる">×</button>
+  </div>
+
+  <script src="js/main.js?v=20260826"></script>
+</body>
+</html>

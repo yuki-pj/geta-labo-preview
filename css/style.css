@@ -1,0 +1,2489 @@
+/* ============================================
+   GETA LABO — 和モダン ブランドサイト
+   ============================================ */
+
+/* ---------- リセット & 基本設定 ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- 共通の値（ここだけ直せば全体に効く） ---------- */
+:root {
+  /* 紙の質感：商品写真(geta.png)の木肌から起こした本物の木目。
+     以前は同じノイズを8箇所にコピペしていたが、ここ1箇所にまとめた。 */
+  --texture: url("../images/texture-wood.png");
+
+  /* 文字間：以前は 0.04em〜0.25em が10種類バラバラに散っていた。
+     役割ごとに3種類だけに整理した。 */
+  --ls-body: 0.04em;   /* 本文 */
+  --ls-head: 0.1em;    /* 見出し */
+  --ls-label: 0.2em;   /* 小さな英字ラベル・タグ・ボタン */
+
+  /* 見出しの書体。ここ1行を書き換えれば、全ての見出しの書体が一度に変わる。 */
+  --font-head: "Noto Serif JP", serif;
+
+  /* ---- 色：以前は19色あり、うち10組は目で見分けがつかない重複だった。
+          役割ごとに11色へ整理した。 ---- */
+  --c-white:    #FFFFFF;   /* カードの地 */
+  --c-bg:       #FAF8F5;   /* ページの地（生成り） */
+  --c-bg-alt:   #F5F0EB;   /* 一段濃い帯（セクションを切り替える地） */
+  --c-line:     #E0D8CC;   /* 淡い枠線 */
+  --c-brown:    #7A6346;   /* 茶の枠線・添え文字。
+                              元の #8B7355 は生成り地で4.23しかなく基準(4.5)に
+                              わずかに届かなかったため、一段濃くした（5.35）。 */
+  --c-gold:     #B8860B;   /* 金：暗い地の上の文字・装飾のみ */
+  --c-gold-ink: #8A5F09;   /* 金：明るい地の上の文字用（読める濃さ）。
+                              #B8860B は生成り地でコントラスト3.07しかなく
+                              基準(4.5)に届かないため、文字にはこちらを使う。 */
+  --c-ink:      #1A1A1A;   /* 文字：主 */
+  --c-ink-2:    #333333;   /* 文字：準 */
+  --c-ink-3:    #555555;   /* 文字：補助 */
+  --c-muted:    #666666;   /* 文字：弱 */
+
+  /* ---- 文字サイズ：以前は21種類あり、15pxと15.2pxのように
+          見分けのつかない段差が並んでいた。8段階に統合した。 ---- */
+  --fs-4xl: 2.4rem;    /* 38.4px 大見出し（PC） */
+  --fs-3xl: 2rem;      /* 32px   大見出し（タブレット）・セクション見出し（PC） */
+  --fs-2xl: 1.6rem;    /* 25.6px セクション見出し（タブレット）・大見出し（スマホ） */
+  --fs-xl:  1.3rem;    /* 20.8px セクション見出し（スマホ）・小見出し */
+  --fs-lg:  1.1rem;    /* 17.6px リード文 */
+  --fs-md:  1rem;      /* 16px   本文 */
+  --fs-sm:  0.875rem;  /* 14px   補助文・カードの説明 */
+  --fs-xs:  0.75rem;   /* 12px   日付・タグ・英字ラベル */
+
+  /* ---- 余白：以前は38種類あり、差が2px未満で見分けられない組が20組あった。
+          隣り合う段が必ず1.2倍以上になる12段階に統合した。 ---- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  32px;
+  --sp-8:  40px;
+  --sp-9:  48px;
+  --sp-10: 64px;
+  --sp-11: 80px;
+  --sp-12: 120px;
+
+  /* ---- 角丸：以前は2/4/6/10pxの4種類が混在していた。2種類に統合した。
+          （丸バッジ・丸ボタンの 50% は「円」なので別枠で残す） ---- */
+  --r-sm: 2px;   /* タグ・タブなど小さな部品 */
+  --r-md: 6px;   /* カード・画像 */
+
+  /* ---- 押せる部分の最小サイズ。指で確実に押せる下限。 ---- */
+  --tap: 44px;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+  color: var(--c-ink);
+  background-color: var(--c-bg);
+  line-height: 1.8;
+  letter-spacing: var(--ls-body);
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    var(--texture);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
+/* キーボード操作時だけ現れる「本文へスキップ」リンク */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2000;
+  background-color: var(--c-ink);
+  color: var(--c-white);
+  font-size: var(--fs-sm);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* 下線付きの小さなテキストリンク（製品一覧へ 等） */
+.text-link {
+  display: inline-block;
+  margin-top: var(--sp-6);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label);
+  font-family: "Noto Serif JP", serif;
+  border-bottom: 1px solid var(--c-ink);
+  padding-bottom: var(--sp-1);
+  color: var(--c-ink);
+}
+
+/* ---------- フェードインアニメーション ----------
+   以前は52箇所すべてが「下から30px・0.8秒」の同じ動きだった。
+   動く量を約1/3に減らし、役割ごとに動きを変えている。 */
+.fade-in {
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* JSが動く環境（html.js）でだけ初期状態を透明にする。JS無効でも内容は見える */
+.js .fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* 見出しとラベルは動かさない。その場で浮かび上がるだけにして、
+   写真や本文だけが少し動く。全部が同じ方向へ動く単調さを避ける。 */
+.js .section-heading.fade-in,
+.js .concept-heading.fade-in,
+.js .section-label.fade-in,
+.js .story-title.fade-in {
+  transform: none;
+}
+
+/* 写真は本文よりわずかに遅らせて、視線が文字→写真の順に流れるようにする */
+.js .feet-first-image.fade-in,
+.js .diagnosis-banner.fade-in,
+.js .shop-card-list.fade-in {
+  transition-delay: 0.1s;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* キーボードで中の部品が選ばれたら、表示前でもすぐ見せる（透明なまま操作させない） */
+.js .fade-in:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 商品カード 上品な浮上フェード（時間差つき） ---------- */
+.product-reveal {
+  /* リンクとしての下線・文字色を打ち消す（CSP対応でHTML直書きから移動） */
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.55s ease,
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.js .product-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.product-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3枚を少しずつ時間差で表示 */
+.product-reveal:nth-child(1) {
+  transition-delay: 0s;
+}
+.product-reveal:nth-child(2) {
+  transition-delay: 0.07s;
+}
+.product-reveal:nth-child(3) {
+  transition-delay: 0.14s;
+}
+
+/* 「動きを減らす」設定の人には、出現アニメーションを止めて常時表示する */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .fade-in,
+  .js .product-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================
+   ヘッダー
+   ============================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ヘッダー上部に敷くごく薄いグラデーション（白文字の視認性確保・トップ時のみ） */
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.header.is-scrolled {
+  background-color: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06);
+}
+
+.header.is-scrolled::before {
+  opacity: 0;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-5) var(--sp-8);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-logo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  transition: opacity 0.3s ease;
+}
+
+.header-logo-img {
+  height: 36px;
+  width: auto;
+  transition: filter 0.4s ease;
+}
+
+.header.is-scrolled .header-logo-img {
+  filter: invert(1);
+}
+
+/* グローバルナビ（PC常時表示） */
+.global-nav {
+  margin-left: auto;
+  margin-right: var(--sp-7);
+}
+
+.global-nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-7);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.global-nav-link {
+  position: relative;
+  display: inline-block;
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  letter-spacing: var(--ls-head);
+  color: var(--c-white);
+  padding: var(--sp-1) 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.global-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--c-gold);
+  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.global-nav-link:hover {
+  color: var(--c-gold);
+}
+
+.global-nav-link:hover::after {
+  width: 100%;
+}
+
+.header.is-scrolled .global-nav-link {
+  color: var(--c-ink);
+  text-shadow: none;
+}
+
+.header.is-scrolled .global-nav-link:hover {
+  color: var(--c-gold-ink);
+}
+
+/* ハンバーガーメニュー */
+.hamburger {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 1001;
+  padding: 0;
+}
+
+.hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+  position: relative;
+}
+
+.hamburger-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--c-white);
+  position: absolute;
+  left: 0;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.header.is-scrolled .hamburger-line {
+  background-color: var(--c-ink);
+}
+
+.hamburger-line:nth-child(1) { top: 0; }
+.hamburger-line:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-line:nth-child(3) { bottom: 0; }
+
+.hamburger.is-active .hamburger-line {
+  background-color: var(--c-white);
+}
+
+.hamburger.is-active .hamburger-line:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.hamburger.is-active .hamburger-line:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-label {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label);
+  color: var(--c-white);
+  transition: color 0.4s ease, opacity 0.3s ease;
+  text-transform: uppercase;
+}
+
+.header.is-scrolled .hamburger-label {
+  color: var(--c-ink);
+}
+
+/* PC（901px以上）ではハンバーガーを隠し、グローバルナビだけ表示 */
+@media (min-width: 901px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+.hamburger.is-active .hamburger-label {
+  color: var(--c-white);
+}
+
+/* ナビゲーションオーバーレイ */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: rgba(10, 10, 10, 0.97);
+  clip-path: circle(0% at calc(100% - 56px) 32px);
+  transition: clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+  visibility: hidden;
+  z-index: 999;
+}
+
+.nav-overlay.is-open {
+  clip-path: circle(150% at calc(100% - 56px) 32px);
+  visibility: visible;
+}
+
+.nav-overlay-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 120px 8% 80px;
+  gap: var(--sp-10);
+  overflow-y: auto;
+  /* 中身の端までなぞっても、裏のページへ動きを伝えない */
+  overscroll-behavior: contain;
+}
+
+/* メニューを開いている間は裏のページを固定し、右下バナーも隠す（main.js が付け外し） */
+html.is-menu-open,
+html.is-menu-open body {
+  overflow: hidden;
+}
+
+html.is-menu-open .fixed-banner {
+  visibility: hidden;
+}
+
+/* 中身が画面より長い時、上下の余白を残したままスクロールできるようにする */
+.nav-main,
+.nav-side {
+  margin-block: auto;
+}
+
+.nav-main {
+  flex: 1;
+}
+
+.nav-list {
+  text-align: left;
+}
+
+.nav-list li {
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-list li:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-overlay.is-open .nav-list li {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.nav-overlay.is-open .nav-list li:nth-child(1) { transition-delay: 0.3s; }
+.nav-overlay.is-open .nav-list li:nth-child(2) { transition-delay: 0.37s; }
+.nav-overlay.is-open .nav-list li:nth-child(3) { transition-delay: 0.44s; }
+.nav-overlay.is-open .nav-list li:nth-child(4) { transition-delay: 0.51s; }
+.nav-overlay.is-open .nav-list li:nth-child(5) { transition-delay: 0.58s; }
+.nav-overlay.is-open .nav-list li:nth-child(6) { transition-delay: 0.65s; }
+.nav-overlay.is-open .nav-list li:nth-child(7) { transition-delay: 0.72s; }
+.nav-overlay.is-open .nav-list li:nth-child(8) { transition-delay: 0.79s; }
+.nav-overlay.is-open .nav-list li:nth-child(9) { transition-delay: 0.86s; }
+.nav-overlay.is-open .nav-list li:nth-child(10) { transition-delay: 0.93s; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  padding: var(--sp-5) 0;
+  color: var(--c-white);
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: var(--c-gold);
+}
+
+.nav-num {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-xs);
+  font-weight: 300;
+  letter-spacing: var(--ls-head);
+  color: var(--c-gold);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  min-width: 24px;
+}
+
+.nav-link:hover .nav-num {
+  transform: translateX(4px);
+}
+
+.nav-text {
+  font-family: var(--font-head);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  letter-spacing: var(--ls-head);
+  position: relative;
+  padding-bottom: var(--sp-1);
+}
+
+.nav-text::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--c-gold);
+  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-link:hover .nav-text::after {
+  width: 100%;
+}
+
+/* ナビオーバーレイ — 右カラム */
+.nav-side {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--sp-9);
+  padding-bottom: var(--sp-5);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+}
+
+.nav-overlay.is-open .nav-side {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-side-label {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label);
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-4);
+}
+
+.nav-side-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.nav-side-links a {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: var(--ls-body);
+  transition: color 0.3s ease;
+}
+
+.nav-side-links a:hover {
+  color: var(--c-gold);
+  opacity: 1;
+}
+
+.nav-side-company {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: var(--sp-1);
+}
+
+.nav-side-address {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+}
+
+/* ============================================
+   ヒーローセクション
+   ============================================ */
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-video-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* PCでは横型を表示。縦型（スマホ用）は隠しておく */
+.hero-video--sp {
+  display: none;
+}
+
+/* 画面幅900px以下（スマホ・小さいタブレット）では縦型に入れ替え */
+@media (max-width: 900px) {
+  .hero-video--pc {
+    display: none;
+  }
+  .hero-video--sp {
+    display: block;
+  }
+}
+
+/* 動画が読み込めない場合のフォールバック背景 */
+.hero-video-wrap {
+  background: linear-gradient(135deg, var(--c-ink-2) 0%, var(--c-ink) 100%);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--c-white);
+}
+
+
+/* ============================================
+   共通セクションスタイル
+   ============================================ */
+.section {
+  padding: var(--sp-12) 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  text-align: center;
+  margin-bottom: var(--sp-4);
+}
+
+.section-label-en {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: var(--ls-label);
+  color: var(--c-gold-ink);
+  text-transform: uppercase;
+}
+
+.section-heading {
+  font-family: var(--font-head);
+  font-size: var(--fs-3xl);
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: var(--ls-head);
+  margin-bottom: var(--sp-10);
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
+/* ============================================
+   コンセプトセクション
+   ============================================ */
+.concept {
+  background: transparent;
+  /* 文章が画面上に抜けきってからショップが現れるよう、下に画面1つ分の余白を追加 */
+  padding-bottom: 100vh;
+}
+
+/* 動画背景に文字が溶け込まないよう、文字の背後にだけ目立たない
+   ぼかしマスクを敷く。中央は少し暗く、端へ向かってフワッと消える
+   グラデーションにして四角い枠が出ないようにする。 */
+.concept .concept-inner {
+  position: relative;
+  z-index: 0;
+}
+
+.concept .concept-inner::before {
+  content: "";
+  position: absolute;
+  /* 左右は画面いっぱい(フル幅)に広げ、左右の境界が画面外に出て
+     見えないようにする。上下はテキスト範囲より少し広げる。 */
+  top: -2rem;
+  bottom: -2rem;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 16, 12, 0.42) 0%,
+    rgba(20, 16, 12, 0.32) 45%,
+    rgba(20, 16, 12, 0.18) 75%,
+    rgba(20, 16, 12, 0) 100%
+  );
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  /* 上下方向の縁だけぼかして帯の境界を消す(左右は画面外なので不要) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 文字自体にもうっすら影を付けて輪郭を立たせる */
+.concept .concept-heading,
+.concept .concept-subtitle,
+.concept .concept-label,
+.concept .concept-body {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+
+.concept .concept-heading {
+  color: var(--c-white);
+}
+
+.concept .concept-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.concept .concept-label {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.concept .concept-body {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.concept-heading {
+  font-family: var(--font-head);
+  font-size: var(--fs-4xl);
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: var(--ls-label);
+  line-height: 1.8;
+  margin-bottom: var(--sp-9);
+  text-wrap: balance;
+}
+
+.concept-subtitle {
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: var(--ls-head);
+  color: var(--c-ink-2);
+  margin-bottom: var(--sp-2);
+}
+
+.concept-label {
+  text-align: center;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-label);
+  color: var(--c-brown);
+  margin-bottom: var(--sp-7);
+}
+
+.concept-body {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: var(--fs-lg);
+  line-height: 2.4;
+  color: var(--c-ink-2);
+  text-wrap: pretty;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.concept-body p + p {
+  margin-top: var(--sp-7);
+}
+
+/* ============================================
+   Feet First セクション（足育文化）
+   ============================================ */
+.feet-first {
+  background-color: var(--c-bg-alt);
+  background-image:
+    var(--texture);
+}
+
+/* 写真を先に大きく見せ、その下に見出しと一行を横並びで置く。
+   他のセクションの「左に見出し・右に中身」とは別の組み方にすることで、
+   スクロール中の景色を一度切り替える。 */
+.feet-first-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
+.feet-first-caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-9);
+  align-items: start;
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid rgba(26, 26, 26, 0.18);
+}
+
+.feet-first-heading {
+  font-family: var(--font-head);
+  font-size: var(--fs-3xl);
+  font-weight: 400;
+  letter-spacing: var(--ls-head);
+  line-height: 1.6;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.feet-first-lead {
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--c-ink-3);
+  line-height: 2;
+  margin: 0;
+  align-self: end;
+}
+
+/* 影で浮かせる演出はやめ、写真そのものを見せる */
+.feet-first-image {
+  display: block;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.feet-first-image:hover {
+  opacity: 0.85;
+}
+
+.feet-first-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   プロダクトセクション
+   ============================================ */
+.products {
+  background-color: var(--c-bg);
+  background-image:
+    var(--texture);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-7);
+}
+
+.product-card {
+  background: var(--c-white);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.product-card-image {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.product-card-body {
+  padding: var(--sp-6);
+  flex: 1;
+}
+
+.product-card-title {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: var(--ls-head);
+  margin-bottom: var(--sp-1);
+  text-wrap: balance;
+}
+
+.product-card-title-ja {
+  font-size: var(--fs-xs);
+  color: var(--c-muted);
+  margin-bottom: var(--sp-3);
+}
+
+.product-card-desc {
+  font-size: var(--fs-sm);
+  color: var(--c-muted);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+/* ============================================
+   ストーリーセクション
+   ============================================ */
+.story {
+  background-color: var(--c-bg-alt);
+  background-image:
+    var(--texture);
+}
+
+.story-block {
+  display: grid;
+  /* 文章側は最長見出し「世界のトップアスリートも」が
+     折り返さずに収まる300pxを確保し、残りを図解に使う */
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--sp-9);
+  align-items: center;
+  margin-bottom: var(--sp-11);
+}
+
+/* 研究と開発ブロックはリンク化。文字は本文の見た目を保ち、
+   クリックできることが伝わる控えめなホバーだけを足す */
+a.story-block {
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.4s ease;
+}
+
+a.story-block:hover {
+  transform: translateY(-4px);
+}
+
+a.story-block:hover .story-image-photo {
+  box-shadow: 0 12px 28px rgba(60, 50, 40, 0.16);
+}
+
+a.story-block:hover .story-title {
+  color: var(--c-ink);
+}
+
+.story-title {
+  transition: color 0.3s ease;
+}
+
+.story-image-photo {
+  transition: box-shadow 0.4s ease;
+}
+
+.story-block:last-child {
+  margin-bottom: 0;
+}
+
+.story-block-reverse {
+  direction: rtl;
+}
+
+.story-block-reverse > * {
+  direction: ltr;
+}
+
+.story-image {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+/* 研究と開発：説明画像（縦長を切らずに全体表示）
+   背景色の異なる図版を共通の「図版カード」として見せ、
+   ベージュのセクションから浮かないようにする */
+.story-image-photo {
+  aspect-ratio: auto;
+  overflow: hidden;
+  padding: var(--sp-2);
+  background-color: var(--c-white);
+  border-radius: var(--r-md);
+  box-shadow: 0 6px 20px rgba(60, 50, 40, 0.08);
+}
+
+.story-image-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+}
+
+.story-title {
+  font-family: var(--font-head);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--c-gold-ink);
+  margin-bottom: var(--sp-4);
+  letter-spacing: var(--ls-body);
+  line-height: 1.5;
+}
+
+/* 見出しはできるだけ1行で。狭い画面で折り返す場合も、
+   意味のかたまり（.nobr）の中では改行させず泣き別れを防ぐ */
+.nobr {
+  display: inline-block;
+}
+
+.story-text p {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-3);
+  line-height: 1.9;
+  text-wrap: pretty;
+}
+
+.story-text p + p {
+  margin-top: var(--sp-4);
+}
+
+
+/* ============================================
+   ニュースセクション
+   ============================================ */
+.news {
+  background-color: var(--c-bg-alt);
+  background-image:
+    var(--texture);
+}
+
+/* お知らせは「カードを並べる」のをやめ、新聞の見出し欄のように
+   罫線だけで区切った一覧にしている。商品セクションのカードと
+   見た目が重ならないので、スクロール中の単調さが切れる。 */
+.news-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.18);
+}
+
+.news-item {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--sp-6);
+  align-items: center;
+  padding: var(--sp-5) 0;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+  transition: background-color 0.25s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.news-item:hover {
+  background-color: rgba(26, 26, 26, 0.035);
+}
+
+.news-item:hover .news-title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.news-thumb {
+  width: 96px;
+  aspect-ratio: 4 / 3;
+  /* お知らせのサムネはロゴや横長バナーが多いので、
+     切り取らず全体が見える contain にする */
+  object-fit: contain;
+  background: var(--c-bg);
+}
+
+.news-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: 0;
+}
+
+.news-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.news-date {
+  font-size: var(--fs-xs);
+  color: var(--c-muted);
+  letter-spacing: var(--ls-body);
+  white-space: nowrap;
+}
+
+.news-tag {
+  font-size: var(--fs-xs);
+  color: var(--c-gold-ink);
+  border: 1px solid var(--c-gold-ink);
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  letter-spacing: var(--ls-body);
+}
+
+.news-title {
+  font-size: var(--fs-md);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.news-tabs {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-8);
+  flex-wrap: wrap;
+}
+
+.news-tab {
+  background: none;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  padding: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-head);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  color: var(--c-muted);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.news-tab:hover {
+  border-color: var(--c-gold-ink);
+  color: var(--c-gold-ink);
+}
+
+.news-tab.is-active {
+  background-color: var(--c-gold-ink);
+  border-color: var(--c-gold-ink);
+  color: var(--c-white);
+}
+
+.news-item.is-hidden {
+  display: none;
+}
+
+.news-more {
+  text-align: center;
+  margin-top: var(--sp-9);
+}
+
+.news-more-btn {
+  display: inline-block;
+  border: 1px solid var(--c-ink);
+  padding: var(--sp-4) var(--sp-10);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-label);
+  font-family: "Noto Serif JP", serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.news-more-btn:hover {
+  background-color: var(--c-ink);
+  color: var(--c-white);
+  opacity: 1;
+}
+
+/* ============================================
+   ショップセクション
+   ============================================ */
+.shop {
+  background-color: var(--c-bg);
+  background-image:
+    var(--texture);
+}
+
+/* 別ページから #shop / #online 付きで来たとき、固定ヘッダーの真下で止める。
+   値はヘッダーの実測の高さ（上下の余白＋44pxのボタン）。ページ内のボタンは main.js がヘッダーの高さを引いて移動するので、ここは使われない */
+#shop,
+#online {
+  scroll-margin-top: 84px;
+}
+
+@media (max-width: 768px) {
+  #shop,
+  #online {
+    scroll-margin-top: 76px;
+  }
+}
+
+.shop .container {
+  max-width: 100%;
+  padding: 0 var(--sp-9);
+}
+
+.shop-lead {
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--c-muted);
+  margin-bottom: var(--sp-9);
+}
+
+.shop-card-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-7);
+}
+
+.shop-card {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shop-card:hover {
+  opacity: 0.88;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.shop-card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   フッター
+   ============================================ */
+.footer {
+  position: relative;
+  z-index: 1;
+  background-color: var(--c-ink);
+  color: var(--c-white);
+  padding-top: var(--sp-11);
+}
+
+.footer-partners {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.footer-partners-heading {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: var(--ls-head);
+  margin-bottom: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.footer-partners-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-1);
+  flex: 1;
+  align-content: start;
+}
+
+.footer-partner-logo {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(20%) brightness(0.85);
+  transition: filter 0.3s ease;
+}
+
+.footer-partner-logo:hover {
+  filter: grayscale(0%) brightness(1);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--sp-10);
+  display: grid;
+  grid-template-columns: 0.9fr 0.8fr 0.8fr 2fr;
+  gap: var(--sp-8);
+  padding-bottom: var(--sp-10);
+}
+
+.footer-logo {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-xl);
+  letter-spacing: var(--ls-label);
+  margin-bottom: var(--sp-4);
+  display: block;
+}
+
+.footer-company {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--sp-2);
+}
+
+.footer-address {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.8;
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.footer-nav a {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: var(--ls-head);
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--c-gold);
+  opacity: 1;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.footer-links a {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: var(--ls-body);
+  transition: color 0.3s ease;
+}
+
+.footer-links-heading {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: var(--ls-head);
+  margin-bottom: var(--sp-1);
+}
+
+/* SNS一覧の下に続く見出し（提携機関）用の間隔（CSP対応でHTML直書きから移動） */
+.footer-links-heading--spaced {
+  margin-top: var(--sp-6);
+}
+
+.footer-links a:hover {
+  color: var(--c-gold);
+  opacity: 1;
+}
+
+.footer-policy {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-8);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-policy a {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: var(--ls-body);
+  transition: color 0.3s ease;
+  white-space: nowrap; /* リンク名が途中で改行されないようにする */
+  display: inline-block;
+}
+
+.footer-policy a:hover {
+  color: var(--c-gold);
+  opacity: 1;
+}
+
+.footer-policy-divider {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 var(--sp-3);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--sp-6) var(--sp-8);
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: var(--ls-body);
+}
+
+/* ============================================
+   ミッションセクション
+   ============================================ */
+.mission {
+  /* 元は geta.png（331KB）。同じ大きさのまま軽い形式 webp（約18KB）に変換（2026-09-13 改善12） */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/geta.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* 縦長セクションでも画像を画面サイズ基準にして拡大を防ぐ */
+  color: var(--c-white);
+}
+
+.mission .section-label-en {
+  color: var(--c-gold);
+}
+
+.mission .concept-heading {
+  color: var(--c-white);
+}
+
+.mission-vision {
+  padding: 0 var(--sp-7);
+  border-left: 1px solid rgba(184, 134, 11, 0.6);
+}
+
+.mission-vision-text {
+  font-family: var(--font-head);
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  letter-spacing: var(--ls-head);
+  line-height: 2.2;
+  color: var(--c-gold);
+}
+
+.mission .concept-body {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  letter-spacing: var(--ls-head);
+  line-height: 3.5;
+  text-align: start;
+}
+
+.mission .concept-body p + p {
+  margin-top: 0;
+  margin-right: var(--sp-7);
+}
+
+.mission .section-layout-right {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* ---------- 伝統文化を紡ぐ: 常に全文表示 ---------- */
+.mission {
+  padding: 0;
+}
+
+.mission-pin-wrap {
+  height: auto;
+}
+
+.mission-sticky {
+  padding-top: var(--sp-12);
+  padding-bottom: var(--sp-12);
+}
+
+.mission-sticky .section-layout {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .mission {
+    background-attachment: scroll;
+  }
+}
+
+/* ============================================
+   つながる世界セクション
+   ============================================ */
+.connected-world {
+  background-color: var(--c-bg-alt);
+  background-image:
+    var(--texture);
+}
+
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+}
+
+.world-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  background: var(--c-white);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  padding-bottom: var(--sp-6);
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.world-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+.world-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  margin-bottom: var(--sp-5);
+}
+
+.world-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.world-card:hover .world-card-img {
+  transform: scale(1.05);
+}
+
+.world-card-num {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--fs-xs);
+  font-weight: 300;
+  letter-spacing: var(--ls-head);
+  color: var(--c-white);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 36px;
+  height: 36px;
+  line-height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.world-card-title {
+  font-family: var(--font-head);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: var(--ls-head);
+  margin-bottom: var(--sp-3);
+  padding: 0 var(--sp-5);
+  text-wrap: balance;
+}
+
+.world-card-desc {
+  font-size: var(--fs-sm);
+  color: var(--c-muted);
+  line-height: 1.8;
+  padding: 0 var(--sp-5);
+  text-wrap: pretty;
+}
+
+
+/* ============================================
+   認定制度セクション
+   ============================================ */
+.contact-section {
+  background-color: var(--c-white);
+}
+
+.contact-lead {
+  font-size: var(--fs-md);
+  color: var(--c-ink-3);
+  margin-bottom: var(--sp-8);
+  line-height: 2;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-7);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* カードは写真＋白背景の横並びレイアウトで、そのままフォームへのリンクにする */
+.contact-card {
+  display: flex;
+  align-items: stretch;
+  background-color: var(--c-white);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid var(--c-line);
+  color: var(--c-ink-2);
+  text-decoration: none;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+  border-color: var(--c-brown);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(139, 115, 85, 0.22);
+  opacity: 1;
+}
+
+.contact-card-photo {
+  flex: 0 0 180px;
+  min-height: 110px;
+  overflow: hidden;
+}
+
+.contact-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.contact-card:hover .contact-card-photo img {
+  transform: scale(1.06);
+}
+
+.contact-card-body {
+  padding: var(--sp-4) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.contact-card-title {
+  font-family: var(--font-head);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: var(--ls-body);
+  margin-bottom: var(--sp-1);
+  color: var(--c-ink-2);
+}
+
+.contact-card-title::after {
+  content: "→";
+  margin-left: 0.5em;
+  color: var(--c-brown);
+  font-family: sans-serif;
+  transition: margin-left 0.3s ease;
+}
+
+.contact-card:hover .contact-card-title::after {
+  margin-left: 0.8em;
+}
+
+.contact-card-desc {
+  font-size: var(--fs-sm);
+  color: var(--c-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* ============================================
+   無料診断セクション
+   ============================================ */
+.diagnosis {
+  background-color: var(--c-bg);
+  background-image:
+    var(--texture);
+}
+
+.section-layout-left .diagnosis-lead {
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--c-ink-3);
+  line-height: 2;
+  margin-bottom: 0;
+}
+
+.diagnosis-banner {
+  display: block;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diagnosis-banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  opacity: 1;
+}
+
+.diagnosis-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   フッター提携機関
+   ============================================ */
+.footer-partner {
+  display: block;
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--sp-2);
+}
+
+
+/* ============================================
+   2カラム セクションレイアウト
+   ============================================ */
+.section-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--sp-11);
+  align-items: start;
+}
+
+/* 英語ラベル（Products / News 等）を各セクションから外したため、
+   その下に敷いていた金色の飾り線も不要になった。
+   代わりに見出しの上へ中立色の細い罫線を引き、セクションの始まりを示す。 */
+.section-layout-left .section-heading {
+  text-align: left;
+  font-size: var(--fs-3xl);
+  margin-bottom: var(--sp-6);
+  border-top: 1px solid rgba(26, 26, 26, 0.18);
+  padding-top: var(--sp-6);
+}
+
+.products-subtitle {
+  text-align: left;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-body);
+  color: var(--c-brown);
+  margin-top: -var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.section-layout-left .concept-heading {
+  text-align: left;
+  font-size: var(--fs-2xl);
+  margin-bottom: var(--sp-6);
+  border-top: 1px solid rgba(26, 26, 26, 0.18);
+  padding-top: var(--sp-6);
+}
+
+/* ショップ: 左カラム */
+.section-layout-left .shop-lead {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+/* ショップ: コンテナ幅リセット・右カラムグリッド */
+.shop .container {
+  max-width: 1200px;
+  padding: 0 var(--sp-8);
+}
+
+/* ショップ: 左見出しと右カードを縦中央で釣り合わせる */
+.shop .section-layout {
+  align-items: center;
+}
+
+.shop .section-layout-right .shop-card-list {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-5);
+}
+
+/* ニュース: 右カラムで2列 */
+.news .section-layout-right .news-list {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+/* ミッション: 右カラムのオーバーライド（縦書きのため不要なtext-alignは削除） */
+.mission .section-layout-right .mission-vision {
+  margin: 0;
+  max-width: 100%;
+}
+
+.mission .section-layout-right .concept-body {
+  margin: 0;
+  max-width: 100%;
+}
+
+/* Connected World: 左カラムをスクロール追従 */
+.connected-world .section-layout-left {
+  position: sticky;
+  top: 80px;
+}
+
+/* 見出しを文字幅ぴったりの箱にし、3行（GETA LABO／から／つながる世界）を
+   箱の中で互いに中央揃えする。スマホでは箱ごと中央に寄せる（メディアクエリ側） */
+.connected-world .section-heading {
+  width: fit-content;
+  text-align: center;
+}
+
+/* Connected World: 右カラムで2列 */
+.connected-world .section-layout-right .world-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 各種お問い合わせ: 左カラムのリード文 */
+.section-layout-left .contact-lead {
+  text-align: left;
+  font-size: var(--fs-sm);
+  line-height: 1.9;
+  margin-bottom: 0;
+}
+
+/* お問い合わせ: 右カラムのカードは縦1列でスッキリ並べる */
+.contact-section .section-layout-right .contact-cards {
+  max-width: 100%;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}
+
+/* 研究・開発: コンテナ幅は他セクションと同じ1100pxのまま、
+   左右カラムの間隔を詰めて図解の表示幅をできるだけ確保する */
+.story .section-layout {
+  gap: var(--sp-9);
+}
+
+/* 研究・開発: 右カラム内のストーリーブロック間隔 */
+.story .section-layout-right .story-block {
+  gap: var(--sp-7);
+}
+
+/* ============================================
+   レスポンシブ — 2カラム → 1カラム（900px以下）
+   ============================================ */
+@media (max-width: 900px) {
+  /* スマホ・タブレットではグローバルナビを隠し、ハンバーガーを使う */
+  .global-nav {
+    display: none;
+  }
+
+  .section-layout {
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+  }
+
+  /* 足育: 写真の下の2列を縦積みにする */
+  .feet-first-inner {
+    padding: 0 var(--sp-6);
+  }
+
+  .feet-first-caption {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+    margin-top: var(--sp-7);
+  }
+
+  /* 1カラムに積むスマホでは、見出しと本文をまとめて中央に置く。
+     PCは写真の下の2列組みなので、どちらも左揃えのまま */
+  .feet-first-heading {
+    font-size: var(--fs-2xl);
+    text-align: center;
+  }
+
+  .feet-first-lead {
+    text-align: center;
+  }
+
+  /* 中身の長い1行がグリッド列を画面幅以上に広げないようにする */
+  .section-layout > * {
+    min-width: 0;
+  }
+
+  .section-layout-left {
+    position: static;
+  }
+
+  .connected-world .section-layout-left {
+    position: static;
+    top: auto;
+  }
+
+  .section-layout-left .section-heading,
+  .section-layout-left .concept-heading {
+    text-align: center;
+    font-size: var(--fs-3xl);
+    margin-bottom: var(--sp-7);
+  }
+
+  .shop .container {
+    padding: 0 var(--sp-6);
+  }
+
+  .news .section-layout-right .news-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* お知らせ一覧: スマホではサムネを小さくして1行に収める */
+  .news-item {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: var(--sp-4);
+    padding: var(--sp-4) 0;
+  }
+
+  .news-thumb {
+    width: 68px;
+  }
+
+  .connected-world .section-layout-right .world-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 文字幅ぴったりの見出しの箱を、1カラムでは箱ごと中央に置く */
+  .connected-world .section-heading {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-section .section-layout-right .contact-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .mission .section-layout-right {
+    writing-mode: horizontal-tb;
+  }
+
+  /* 縦書き前提のkeep-allを解除し、日本語を自然に折り返す */
+  .mission .concept-body {
+    word-break: normal;
+  }
+
+  /* 縦書き用の段落間余白（右マージン）を横書き用に戻す */
+  .mission .concept-body p + p {
+    margin-right: 0;
+    margin-top: var(--sp-7);
+  }
+
+  .mission .section-layout-right .concept-body,
+  .mission .section-layout-right .mission-vision {
+    text-align: center;
+  }
+
+  .mission .section-layout-right .mission-vision {
+    padding: var(--sp-6) var(--sp-7);
+    border-left: none;
+    border-top: 1px solid rgba(184, 134, 11, 0.6);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.6);
+    margin-bottom: var(--sp-7);
+  }
+
+  .mission .section-layout-right .mission-vision-text {
+    text-align: center;
+  }
+}
+
+/* ============================================
+   レスポンシブ — タブレット（768px以下）
+   ============================================ */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--sp-6);
+  }
+
+  .section {
+    padding: var(--sp-11) 0;
+  }
+
+  .header-inner {
+    padding: var(--sp-4) var(--sp-6);
+  }
+
+  /* Feet First（足育文化） */
+  .feet-first-lead {
+    font-size: var(--fs-sm);
+    margin-bottom: var(--sp-8);
+  }
+
+  /* コンセプト */
+  .concept-heading {
+    font-size: var(--fs-3xl);
+  }
+
+  .concept-body {
+    font-size: var(--fs-sm);
+  }
+
+  .concept-body br {
+    display: none;
+  }
+
+  /* プロダクト */
+  .section-heading {
+    font-size: var(--fs-2xl);
+    margin-bottom: var(--sp-8);
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* 商品写真は横長(約3:2)のため、縦長枠での左右見切れを防ぐ */
+  .product-card-image {
+    aspect-ratio: 3 / 2;
+  }
+
+  /* ストーリー */
+  .story-block {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    margin-bottom: var(--sp-10);
+  }
+
+  .story-block-reverse {
+    direction: ltr;
+  }
+
+  .story-title {
+    font-size: var(--fs-lg);
+  }
+
+  /* つながる世界 */
+  .world-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-4);
+  }
+
+  /* 各種お問い合わせ */
+  .contact-cards {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+
+  .contact-card-photo {
+    flex-basis: 110px;
+    min-height: 96px;
+  }
+
+  .contact-card-body {
+    padding: var(--sp-4) var(--sp-4);
+  }
+
+  /* ミッション */
+  .mission .concept-body br {
+    display: none;
+  }
+
+  .mission .concept-body {
+    font-size: var(--fs-sm);
+    line-height: 2;
+  }
+
+  .mission-vision {
+    padding: var(--sp-7) var(--sp-6);
+  }
+
+  .mission-vision-text {
+    font-size: var(--fs-md);
+  }
+
+  /* ナビオーバーレイ */
+  .nav-overlay-inner {
+    flex-direction: column;
+    padding: var(--sp-12) var(--sp-7) var(--sp-10);
+    gap: var(--sp-8);
+    justify-content: flex-start;
+  }
+
+  .nav-main,
+  .nav-side {
+    margin-block: 0;
+  }
+
+  .nav-side {
+    width: 100%;
+    flex-direction: row;
+    gap: var(--sp-7);
+    padding-bottom: 0;
+  }
+
+  .nav-text {
+    font-size: var(--fs-xl);
+  }
+
+  .nav-list li {
+    margin-bottom: 0;
+  }
+
+  .nav-link {
+    padding: var(--sp-4) 0;
+  }
+
+  /* ニュース */
+  .news-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .news-title {
+    font-size: var(--fs-sm);
+  }
+
+  .news-tabs {
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-6);
+  }
+
+  .news-tab {
+    padding: var(--sp-1) var(--sp-4);
+    font-size: var(--fs-xs);
+  }
+
+  .news-more-btn {
+    padding: var(--sp-3) var(--sp-8);
+  }
+
+  /* ショップ（基本設定より詳細度を上げて2列指定を確実に効かせる） */
+  .shop .section-layout-right .shop-card-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
+  }
+
+  /* フッター */
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    padding: 0 var(--sp-6) var(--sp-8);
+  }
+}
+
+/* ============================================
+   レスポンシブ — スマホ（480px以下）
+   ============================================ */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--sp-5);
+  }
+
+  .section {
+    padding: var(--sp-10) 0;
+  }
+
+  .concept-heading {
+    font-size: var(--fs-2xl);
+  }
+
+  .section-heading {
+    font-size: var(--fs-xl);
+  }
+
+  .nav-text {
+    font-size: var(--fs-lg);
+  }
+
+  .nav-overlay-inner {
+    padding: var(--sp-11) var(--sp-6) var(--sp-7);
+  }
+
+  .nav-side {
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  .nav-link {
+    padding: var(--sp-3) 0;
+    gap: var(--sp-4);
+  }
+
+  .world-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+  }
+
+  .world-card {
+    padding: var(--sp-6) var(--sp-4);
+  }
+
+  /* 2列で幅が狭いので、文字の幅を写真の幅にそろえて言葉の途中の改行を防ぐ */
+  .world-card-title,
+  .world-card-desc {
+    padding: 0;
+  }
+
+  .shop-card-list {
+    grid-template-columns: 1fr;
+  }
+
+  .news-list {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+}
+
+/* ===== 固定バナー（オンラインショップ導線） ===== */
+.fixed-banner {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  display: block;
+  width: 220px;
+  max-width: 42vw;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.25));
+}
+
+.fixed-banner:hover,
+.fixed-banner:focus-within {
+  transform: translateY(-4px) scale(1.03);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.3));
+}
+
+.fixed-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fixed-banner-link {
+  display: block;
+}
+
+/* バナーを消すための×ボタン（消した状態はページを開いている間だけ記憶） */
+.fixed-banner-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background-color: var(--c-ink);
+  color: var(--c-white);
+  font-size: var(--fs-md);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fixed-banner.is-hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .fixed-banner {
+    right: 12px;
+    bottom: 12px;
+    width: 150px;
+  }
+
+  /* ×ボタンを画面の右端から離し、押せる範囲（44px）が画面内に収まるようにする */
+  .fixed-banner-close {
+    right: -4px;
+  }
+}
+
+/* ---------- 下駄マーキー（横スクロール） ---------- */
+.geta-marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  max-width: 100%;
+  padding: var(--sp-8) 0;
+  background-color: var(--c-bg-alt);
+}
+
+/* 左右の端で下駄だけをふわっと消す（背景は残す） */
+.geta-marquee::before,
+.geta-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.geta-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--c-bg-alt) 0%, rgba(245, 240, 235, 0) 100%);
+}
+
+.geta-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--c-bg-alt) 0%, rgba(245, 240, 235, 0) 100%);
+}
+
+.geta-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: getaScroll 45s linear infinite;
+}
+
+.geta-marquee:hover .geta-marquee-track {
+  animation-play-state: paused;
+}
+
+.geta-marquee-group {
+  display: flex;
+  align-items: center;
+}
+
+.geta-marquee-item {
+  flex: 0 0 auto;
+  height: 200px;
+  width: auto;
+  margin: 0 var(--sp-2);
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes getaScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .geta-marquee {
+    padding: var(--sp-7) 0;
+  }
+  .geta-marquee-item {
+    height: 130px;
+    margin: 0 var(--sp-1);
+  }
+  .geta-marquee-track {
+    animation-duration: 30s;
+  }
+}
+
+/* 動きを減らす設定の人には停止して表示 */
+@media (prefers-reduced-motion: reduce) {
+  .geta-marquee-track {
+    animation: none;
+  }
+}
+
+/* ============================================
+   押せる部分の大きさ（指で確実に押せる下限 44px）
+
+   審査で、押せる部分75個のうち29個が44pxに届いていなかった。
+   ・並んでいるリンク（フッターの目次・SNS・ナビ）は、
+     間隔そのものを広げる。重ねて広げると隣を押してしまうため。
+   ・単独で置かれているもの（「製品一覧へ」「×」）は、
+     見た目の大きさは変えずに、押せる範囲だけを外側へ広げる。
+   ============================================ */
+
+/* ロゴ・メニューボタン：見た目はそのまま、高さだけ確保する */
+.header-logo {
+  min-height: var(--tap);
+  justify-content: center;
+}
+
+.hamburger {
+  min-height: var(--tap);
+  /* ボタンはブラウザ既定の文字サイズ(13.33px)・文字色(黒)を持ってしまい、
+     整理したはずの段階から外れた9つ目の値になっていた。周囲に合わせる。 */
+  font-size: inherit;
+  color: inherit;
+}
+
+/* お知らせの絞り込みタブ */
+.news-tab {
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--sp-5);
+}
+
+/* 縦に並ぶリンク：間隔をリンク自体の余白に置き換えて、1つ44pxにする */
+.nav-side-links,
+.footer-nav ul,
+.footer-links {
+  gap: 0;
+}
+
+.nav-side-links a,
+.footer-nav a,
+.footer-links a {
+  display: block;
+  padding: var(--sp-3) 0;
+}
+
+/* 横に並ぶフッター下部のリンク */
+.footer-policy a {
+  padding: var(--sp-3) var(--sp-2);
+}
+
+/* PC幅のナビ：横に32pxの間隔があるので、上下方向だけ広げる。
+   下線(::after)の位置を動かさないよう、見た目ではなく当たり判定だけ足す。 */
+.global-nav-link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  height: var(--tap);
+}
+
+/* 単独のリンク・ボタン：見た目は変えず、押せる範囲だけ広げる */
+.text-link {
+  position: relative;
+}
+
+.text-link::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  min-width: var(--tap);
+  height: var(--tap);
+}
+
+.fixed-banner-close::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--tap);
+  height: var(--tap);
+}
